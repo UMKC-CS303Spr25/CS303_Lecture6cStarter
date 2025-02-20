@@ -303,8 +303,8 @@ namespace myList {
 			newItem->prevPtr = tail;
 			tail->nextPtr = newItem;
 			tail = newItem;
+			++numItems;
 		}
-		++numItems;
 	}
 
 	template <typename ItemType>
