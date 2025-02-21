@@ -256,13 +256,19 @@ namespace myList {
 			return iterator(newItem);
 		}
 
-
+		//PRE:  accepts an index
+		//POST: verifies position is valid.
+		//          special case 1: the list is empty – throw error
+		//          special case 2: points to the end of the list – throw error
+		//      if valid, searches for the index
+		//         returns the data at that index
 		ItemType operator[] (size_t n) {
 			ItemType temp = 0;
-			if (n > numItems - 1)
-				throw exception("Accessing out of range\n");
-			else if (numItems == 0)
+			if (numItems == 0)
 				throw exception("No Elements in the list\n");
+			else if (n > numItems - 1)
+				throw exception("Accessing out of range\n");
+
 			size_t i = 0;
 			DNode* tempPtr;
 			tempPtr = head;
@@ -289,6 +295,12 @@ namespace myList {
 		numItems = 0;
 	}
 
+	//PRE:  accepts an input value
+	//POST: special case: insert at the head (pushFront)
+	//      else setup the node and add to the tail
+	//      adjust pointers
+	//      increment numItems
+
 	template <typename ItemType>
 	void LinkedList<ItemType>::pushBack(const ItemType& d) {
 		cout << "pushback\n";
@@ -306,7 +318,12 @@ namespace myList {
 			++numItems;
 		}
 	}
-
+	
+	//PRE:  accepts an input value
+	//POST: setup the node 
+	//      if list is empty, set head & tail
+	//      else add to the tail
+	//      increment numItems
 	template <typename ItemType>
 	void LinkedList<ItemType>::pushFront(const ItemType& d) {
 		cout << "pushfront\n";
@@ -327,6 +344,9 @@ namespace myList {
 		++numItems;
 	}
 
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, return data at the tail
 	template <typename ItemType>
 	ItemType LinkedList<ItemType>::back() {
 		//list is empty
@@ -337,6 +357,9 @@ namespace myList {
 		return popItem;
 	}
 
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, return data at the head
 	template <typename ItemType>
 	ItemType LinkedList<ItemType>::front() {
 		//list is empty
@@ -347,6 +370,12 @@ namespace myList {
 		return popItem;
 	}
 
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, save data from tail
+	//      set delNode, adjust pointers, delete delNode
+	//      check for empty list
+	//      decrement numItems & return saved item
 	template <typename ItemType>
 	ItemType LinkedList<ItemType>::popBack() {
 		cout << "popback:  ";
@@ -370,6 +399,12 @@ namespace myList {
 		return popItem;
 	}
 
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, save data from head
+	//      set delNode, adjust pointers, delete delNode
+	//      check for empty list
+	//      decrement numItems & return saved item
 	template <typename ItemType>
 	ItemType LinkedList<ItemType>::popFront() {
 		cout << "popfront:  ";
@@ -390,6 +425,10 @@ namespace myList {
 		return popItem;
 	}
 
+
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, print list using iterator
 	template <typename ItemType>
 	string LinkedList<ItemType>::printList() const {
 		//list is empty
@@ -407,7 +446,12 @@ namespace myList {
 		out += " }";
 		return out;
 	}
-
+	
+	//PRE:  provide item to find
+	//POST: if list is empty - return not found (false)  
+	//      otherise walk through list to find value
+	//      if found return true
+	//      return false otherwise
 	template <typename ItemType>
 	bool LinkedList<ItemType>::find(const ItemType& d) {
 
@@ -428,12 +472,12 @@ namespace myList {
 			return true;
 	}
 
-
-
-
 	//PRE:  sends an item value from the list
-	//POST: search the list for the first value in the list matching 'd'
-	//      return true if found; false if not
+	//POST: case 1: list is empty - return false
+	//      case 2: found at thead of list (ajust pointers)
+	//      case 3:  search the list for the first value in the list matching 'd'
+	//      if found,adjust pointers,decrement numItems, return true
+	//      else return false
 	template <typename ItemType>
 	bool LinkedList<ItemType>::remove(const ItemType& d) {
 
@@ -477,6 +521,12 @@ namespace myList {
 		}
 		return false;
 	}
+	//TASK 4
+	//PRE:  accepts 2 values (d & newValue)
+	//      'd' (item that will follow newValue) & newValue
+	//POST: case 1: 'd' is at the front of the list or is the head
+	//      case 2: 'd' is not in the list, then add value to the end of the list
+	//      case 3: find 'd' and insert value before 'd'
 
 	template <typename ItemType>
 	bool LinkedList<ItemType>::addBefore(const ItemType& d, const ItemType& value) {
@@ -521,7 +571,15 @@ namespace myList {
 		}
 		return false;
 	}
-
+	//TASK 3
+	//PRE:  position (index) & value
+	//POST: verifies position
+	//      creates a new node
+	//      case 1: pos = 0 (head)
+	//      case 2: pos = numItems (tail)
+	//      case 3: loops to get to position
+	//        sets up pointers
+	//        increments numItems
 	template <typename ItemType>
 	void LinkedList<ItemType>::insert(const size_t pos, const ItemType& newValue) {
 
