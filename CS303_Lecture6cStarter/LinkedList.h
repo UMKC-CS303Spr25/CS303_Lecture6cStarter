@@ -294,30 +294,6 @@ namespace myList {
 		tail = nullptr;
 		numItems = 0;
 	}
-
-	//PRE:  accepts an input value
-	//POST: special case: insert at the head (pushFront)
-	//      else setup the node and add to the tail
-	//      adjust pointers
-	//      increment numItems
-
-	template <typename ItemType>
-	void LinkedList<ItemType>::pushBack(const ItemType& d) {
-		cout << "pushback\n";
-
-		if (head == nullptr) {
-			pushFront(d);
-		}
-		else {
-			DNode* newItem = new DNode;
-			newItem->data = d;
-			newItem->nextPtr = nullptr;
-			newItem->prevPtr = tail;
-			tail->nextPtr = newItem;
-			tail = newItem;
-			++numItems;
-		}
-	}
 	
 	//PRE:  accepts an input value
 	//POST: setup the node 
@@ -346,61 +322,6 @@ namespace myList {
 
 	//PRE:  none
 	//POST: if list is empty - throw error  
-	//      if not, return data at the tail
-	template <typename ItemType>
-	ItemType LinkedList<ItemType>::back() {
-		//list is empty
-		if (tail == nullptr) {
-			throw runtime_error("No items in list");
-		}
-		ItemType popItem = tail->data;
-		return popItem;
-	}
-
-	//PRE:  none
-	//POST: if list is empty - throw error  
-	//      if not, return data at the head
-	template <typename ItemType>
-	ItemType LinkedList<ItemType>::front() {
-		//list is empty
-		if (head == nullptr) {
-			throw runtime_error("No items in list");
-		}
-		ItemType popItem = head->data;
-		return popItem;
-	}
-
-	//PRE:  none
-	//POST: if list is empty - throw error  
-	//      if not, save data from tail
-	//      set delNode, adjust pointers, delete delNode
-	//      check for empty list
-	//      decrement numItems & return saved item
-	template <typename ItemType>
-	ItemType LinkedList<ItemType>::popBack() {
-		cout << "popback:  ";
-		//list is empty
-		if (tail == nullptr) {
-			throw invalid_argument("No items in list");
-		}
-
-		DNode* delNode = tail;
-		ItemType popItem = tail->data;
-		tail = tail->prevPtr;
-		delete delNode;
-		delNode = nullptr;
-
-		if (tail != nullptr)
-			tail->nextPtr = nullptr;
-		else
-			head = nullptr;
-
-		--numItems;
-		return popItem;
-	}
-
-	//PRE:  none
-	//POST: if list is empty - throw error  
 	//      if not, save data from head
 	//      set delNode, adjust pointers, delete delNode
 	//      check for empty list
@@ -425,6 +346,69 @@ namespace myList {
 		return popItem;
 	}
 
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, return data at the head
+	template <typename ItemType>
+	ItemType LinkedList<ItemType>::front() {
+		//list is empty
+		if (head == nullptr) {
+			throw runtime_error("No items in list");
+		}
+		ItemType popItem = head->data;
+		return popItem;
+	}
+
+	//YOUR TURN TASK 1: PUSHBACK
+	//PRE:  accepts an input value
+	//POST: if list is empty - pushFront
+	//      else etup new node
+	//      add to the tail
+	//      adjust pointers
+	//      increment numItems
+
+	template <typename ItemType>
+	void LinkedList<ItemType>::pushBack(const ItemType& d) {
+		cout << "pushback\n";
+
+		if (head == nullptr) {
+			pushFront(d);
+		}
+		else {
+			//you do this
+		}
+	}
+
+	//YOUR TURN TASK 2: POPBACK
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, save data from tail
+	//      set delNode, adjust pointers, delete delNode
+	//      check for empty list
+	//      decrement numItems & return saved item
+	template <typename ItemType>
+	ItemType LinkedList<ItemType>::popBack() {
+		cout << "popback:  ";
+		//list is empty
+		if (tail == nullptr) {
+			throw invalid_argument("No items in list");
+		}
+
+		//you do this!
+	}
+
+	//PRE:  none
+	//POST: if list is empty - throw error  
+	//      if not, return data at the tail
+	template <typename ItemType>
+	ItemType LinkedList<ItemType>::back() {
+		//list is empty
+		if (tail == nullptr) {
+			throw runtime_error("No items in list");
+		}
+		ItemType popItem = tail->data;
+		return popItem;
+	}
 
 	//PRE:  none
 	//POST: if list is empty - throw error  
@@ -521,6 +505,50 @@ namespace myList {
 		}
 		return false;
 	}
+
+	//TASK 3 YOUR TURN : INSERT
+	//PRE:  position (index) & value
+	//POST: verifies position
+	//      creates a new node
+	//      case 1: pos = 0 (head)
+	//      case 2: pos = numItems (tail)
+	//      case 3: loops to get to position
+	//        sets up pointers
+	//        increments numItems
+	template <typename ItemType>
+	void LinkedList<ItemType>::insert(const size_t pos, const ItemType& newValue) {
+
+		//d is value at headptr or list is empty
+		if (pos < 0 || pos > numItems) {
+		}
+
+		DNode* newItem = new DNode;
+		newItem->data = newValue;
+		newItem->nextPtr = nullptr;
+		newItem->prevPtr = nullptr;
+		cout << pos << " = " << numItems << endl;
+
+		if (pos == 0) {
+			pushFront(newValue);
+			return;
+		}
+		else if (pos == numItems) {
+			pushBack(newValue);
+			return;
+		}
+
+		DNode* tempPtr;
+		tempPtr = head;
+		size_t count = 0;
+
+		//add loop to get to item right before position
+ 
+
+		//if not at the end of list and we are at the right place
+		//adjust pointers
+ 
+
+	}
 	//TASK 4
 	//PRE:  accepts 2 values (d & newValue)
 	//      'd' (item that will follow newValue) & newValue
@@ -570,56 +598,6 @@ namespace myList {
 			return true;
 		}
 		return false;
-	}
-	//TASK 3
-	//PRE:  position (index) & value
-	//POST: verifies position
-	//      creates a new node
-	//      case 1: pos = 0 (head)
-	//      case 2: pos = numItems (tail)
-	//      case 3: loops to get to position
-	//        sets up pointers
-	//        increments numItems
-	template <typename ItemType>
-	void LinkedList<ItemType>::insert(const size_t pos, const ItemType& newValue) {
-
-		//d is value at headptr or list is empty
-		if (pos < 0 || pos > numItems) {
-			throw runtime_error("Invalid position provided");
-		}
-
-		DNode* newItem = new DNode;
-		newItem->data = newValue;
-		newItem->nextPtr = nullptr;
-		newItem->prevPtr = nullptr;
-		cout << pos << " = " << numItems << endl;
-
-		if (pos == 0) {
-			pushFront(newValue);
-			return;
-		}
-		else if (pos == numItems) {
-			pushBack(newValue);
-			return;
-		}
-
-		DNode* tempPtr;
-		tempPtr = head;
-		size_t count = 0;
-
-		while (tempPtr != nullptr
-			&& count < pos - 1) {
-			tempPtr = tempPtr->nextPtr;
-			++count;
-		}
-
-		if (tempPtr != nullptr && count == pos - 1) {
-			newItem->nextPtr = tempPtr->nextPtr;
-			newItem->prevPtr = tempPtr;
-			tempPtr->nextPtr->prevPtr = newItem;
-			tempPtr->nextPtr = newItem;
-			++numItems;
-		}
 	}
 
 
